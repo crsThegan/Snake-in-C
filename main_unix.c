@@ -74,6 +74,7 @@ void draw_board() {
         for (int x = 0; x < WIDTH; x++) {
             addch(board[x][y]);
         }
+	if (y == HEIGHT / 3 * 2) printw("\tScore: %d", score);
         addch('\n');
     }
     refresh();
@@ -116,9 +117,10 @@ void logics() {
 
     if (snake_x[0] == fruit_x && snake_y[0] == fruit_y) {
         score += 5;
-        while (snake_x[0] == fruit_x && snake_y[0] == fruit_y)
-            gen_fruit();
         snake_len++;
+	for (int i = 0; i < snake_len; i++)
+		while (fruit_x == snake_x[i] && fruit_y == snake_y[i])
+			gen_fruit();
         int *temp_x = realloc(snake_x, snake_len * sizeof(int));
         int *temp_y = realloc(snake_y, snake_len * sizeof(int));
         if (!temp_x || !temp_y) exit(1);
